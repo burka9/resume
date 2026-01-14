@@ -1,0 +1,44 @@
+---
+import type { Experience } from '../lib/db';
+
+interface Props {
+  experience: Experience;
+}
+
+const { experience } = Astro.props;
+
+function formatDate(dateStr: string | null): string {
+  if (!dateStr) return 'Present';
+  const [year, month] = dateStr.split('-');
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${months[parseInt(month) - 1]} ${year}`;
+}
+
+const startDate = formatDate(experience.start_date);
+const endDate = formatDate(experience.end_date);
+---
+
+<div class="relative pl-8 pb-8 border-l border-[var(--color-border)] last:pb-0">
+  <!-- Timeline dot -->
+  <div class="absolute left-0 top-0 w-3 h-3 -translate-x-1/2 rounded-full bg-accent"></div>
+
+  <div class="card">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+      <h3 class="text-lg font-semibold">{experience.role}</h3>
+      <span class="text-sm text-text-secondary">
+        {startDate} - {endDate}
+      </span>
+    </div>
+
+    <p class="text-accent font-medium mb-3">
+      {experience.company}
+      {experience.location && <span class="text-text-secondary font-normal"> · {experience.location}</span>}
+    </p>
+
+    {experience.description && (
+      <p class="text-text-secondary text-sm leading-relaxed">
+        {experience.description}
+      </p>
+    )}
+  </div>
+</div>

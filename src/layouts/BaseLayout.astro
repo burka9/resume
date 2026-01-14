@@ -1,0 +1,145 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'DevOps Engineer & Full Stack Developer' } = Astro.props;
+const fullTitle = `${title} | Biruk Ephrem`;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Biruk Ephrem" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <title>{fullTitle}</title>
+    <ViewTransitions />
+    <!-- Prevent flash of wrong theme -->
+    <script is:inline>
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (stored === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else if (stored === 'dark' || prefersDark) {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- Page loader -->
+    <div id="page-loader" class="fixed inset-0 z-[100] bg-background flex items-center justify-center transition-opacity duration-300">
+      <div class="loader"></div>
+    </div>
+
+    <Header />
+    <main class="flex-grow animate-fade-in">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      // Hide loader after page loads
+      function hideLoader() {
+        const loader = document.getElementById('page-loader');
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(() => {
+            loader.style.display = 'none';
+          }, 300);
+        }
+      }
+
+      // Show loader before navigation
+      function showLoader() {
+        const loader = document.getElementById('page-loader');
+        if (loader) {
+          loader.style.display = 'flex';
+          loader.style.opacity = '1';
+        }
+      }
+
+      // Initial load
+      if (document.readyState === 'complete') {
+        hideLoader();
+      } else {
+        window.addEventListener('load', hideLoader);
+      }
+
+      // View Transitions events
+      document.addEventListener('astro:before-preparation', showLoader);
+      document.addEventListener('astro:after-swap', hideLoader);
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Page loader spinner */
+  .loader {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--color-border);
+    border-top-color: #f97316;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Fade in animation */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out;
+  }
+
+  /* View Transition animations */
+  ::view-transition-old(root) {
+    animation: fade-out 0.3s ease-out;
+  }
+
+  ::view-transition-new(root) {
+    animation: fade-in 0.3s ease-out;
+  }
+
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  }
+
+  /* Staggered fade-in for elements */
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+</style>

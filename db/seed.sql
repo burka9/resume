@@ -1,0 +1,62 @@
+-- Seed data from Biruk Ephrem's resume
+
+-- Projects
+INSERT INTO projects (title, slug, description, tech_stack, github_url, live_url) VALUES
+('Attendance, Warehouse and Finance Management System', 'attendance-warehouse-finance', 'A comprehensive system built for Muntaha Foundation that automates beneficiary registration, attendance tracking, warehouse inventory management, and donation/payment tracking.', 'Node.js, MySQL, React', NULL, NULL),
+('Restaurant Order Automation', 'restaurant-order-automation', 'Developed for Luna Group. Automates restaurant order processing and generates financial reports integrated with cash register systems.', 'Node.js, MySQL', NULL, NULL),
+('Amharic Corpus Data', 'amharic-corpus-data', 'Collected Amharic language corpus data from web sources, PDFs, and social media. Published as an open-source dataset on HuggingFace for NLP research.', 'Python, Scrapy, Web Scraping', NULL, NULL),
+('Rental Management System', 'rental-management', 'Property management application for tracking rental units, tenants, and payment histories.', 'Next.js, Node.js, MySQL', NULL, NULL);
+
+-- Experiences
+INSERT INTO experiences (company, role, location, start_date, end_date, description, sort_order) VALUES
+('ETTA Solutions PLC', 'DevOps Engineer', 'Addis Ababa', '2025-01', NULL, 'Implement CI/CD pipelines to automate deployments and improve release cycles. Design and maintain scalable cloud infrastructure for client solutions. Improve system integrations and ensure high availability of services.', 1),
+('Faris Technology', 'Full Stack Developer', 'Addis Ababa', '2023-12', '2025-02', 'Developed ICT solutions for diverse business requirements. Contributed to aerospace and AI research initiatives. Built and maintained full-stack applications using modern frameworks.', 2),
+('Netib Consult', 'Full Stack Developer', 'Addis Ababa', '2021-12', '2023-12', 'Designed and implemented user interfaces for web applications. Developed and managed backend servers and databases. Delivered end-to-end solutions for client projects.', 3),
+('Desert Rose', 'Web/Game Developer', 'Addis Ababa', '2020-11', '2021-06', 'Digitized an existing board game for online multiplayer access. Designed UI/UX and implemented frontend and backend systems. Integrated game servers with Telegram bot for user engagement.', 4);
+
+-- Skills
+INSERT INTO skills (name, category) VALUES
+-- Cloud & DevOps
+('AWS', 'Cloud & DevOps'),
+('Docker', 'Cloud & DevOps'),
+('Kubernetes', 'Cloud & DevOps'),
+('Serverless', 'Cloud & DevOps'),
+('Nginx', 'Cloud & DevOps'),
+('Linux Server', 'Cloud & DevOps'),
+('Git', 'Cloud & DevOps'),
+('GitHub', 'Cloud & DevOps'),
+-- Frontend
+('React', 'Frontend'),
+('Vue.js', 'Frontend'),
+('Nuxt.js', 'Frontend'),
+('Next.js', 'Frontend'),
+('TailwindCSS', 'Frontend'),
+('HTML5', 'Frontend'),
+('CSS3', 'Frontend'),
+('SCSS', 'Frontend'),
+('TypeScript', 'Frontend'),
+('JavaScript', 'Frontend'),
+-- Backend
+('Node.js', 'Backend'),
+('Python', 'Backend'),
+('Laravel', 'Backend'),
+('TypeORM', 'Backend'),
+('RESTful API', 'Backend'),
+-- Databases
+('MySQL', 'Databases'),
+('MongoDB', 'Databases'),
+('VectorDB', 'Databases'),
+-- AI & Data
+('LangChain', 'AI & Data'),
+('Ollama', 'AI & Data'),
+('Transformers', 'AI & Data'),
+('LLM', 'AI & Data'),
+('Scrapy', 'AI & Data'),
+('Puppeteer', 'AI & Data'),
+('Web Scraping', 'AI & Data'),
+-- Other
+('Java', 'Other'),
+('C', 'Other'),
+('C++', 'Other'),
+('Photoshop', 'Other'),
+('WordPress', 'Other');

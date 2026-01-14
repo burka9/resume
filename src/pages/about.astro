@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ExperienceItem from '../components/ExperienceItem.astro';
+import SkillBadge from '../components/SkillBadge.astro';
+import { getAllExperiences, getSkillsByCategory } from '../lib/db';
+
+const experiences = await getAllExperiences();
+const skillsByCategory = await getSkillsByCategory();
+---
+
+<BaseLayout title="About" description="Learn more about Biruk Ephrem - DevOps Engineer and Full Stack Developer">
+  <section class="section pt-32">
+    <div class="container">
+      <h1 class="section-title">About Me</h1>
+
+      <div class="max-w-3xl">
+        <p class="text-lg text-text-secondary mb-6 leading-relaxed">
+          I'm a DevOps Engineer and Full Stack Developer based in Addis Ababa, Ethiopia,
+          with over 5 years of experience building scalable web applications and cloud infrastructure.
+        </p>
+        <p class="text-lg text-text-secondary mb-6 leading-relaxed">
+          I specialize in automating deployments, implementing CI/CD pipelines, and developing
+          end-to-end solutions using modern technologies. My work spans from designing user
+          interfaces to managing servers and databases.
+        </p>
+        <p class="text-lg text-text-secondary leading-relaxed">
+          When I'm not coding, I enjoy exploring new technologies, contributing to open-source
+          projects, and working on personal projects that challenge me to grow as a developer.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Skills</h2>
+
+      <div class="space-y-8">
+        {Object.entries(skillsByCategory).map(([category, skills]) => (
+          <div>
+            <h3 class="text-lg font-semibold text-accent mb-4">{category}</h3>
+            <div class="flex flex-wrap gap-3">
+              {skills.map(skill => (
+                <SkillBadge name={skill.name} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Experience</h2>
+
+      <div class="max-w-3xl">
+        {experiences.map(exp => (
+          <ExperienceItem experience={exp} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Education Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Education & Certifications</h2>
+
+      <div class="grid md:grid-cols-2 gap-6 max-w-3xl">
+        <div class="card">
+          <h3 class="font-semibold mb-1">ALX - Software Engineering</h3>
+          <p class="text-text-secondary text-sm mb-2">Feb 2022 - Mar 2023</p>
+          <p class="text-text-secondary text-sm">12-month program with Backend Development specialization</p>
+        </div>
+
+        <div class="card">
+          <h3 class="font-semibold mb-1">Udacity - Cloud Developer</h3>
+          <p class="text-text-secondary text-sm mb-2">Aug 2022 - Dec 2022</p>
+          <p class="text-text-secondary text-sm">AWS services, Serverless Framework</p>
+        </div>
+
+        <div class="card">
+          <h3 class="font-semibold mb-1">INSA - Cybersecurity</h3>
+          <p class="text-text-secondary text-sm mb-2">Mar 2023 - May 2023</p>
+          <p class="text-text-secondary text-sm">System security, mobile security, privacy</p>
+        </div>
+
+        <div class="card">
+          <h3 class="font-semibold mb-1">AASTU - ECE Coursework</h3>
+          <p class="text-text-secondary text-sm mb-2">Sep 2015 - Jul 2021</p>
+          <p class="text-text-secondary text-sm">Electrical and Computer Engineering</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Resume -->
+  <section class="section">
+    <div class="container">
+      <div class="card text-center py-8">
+        <h2 class="text-xl font-bold mb-4">Want a copy of my resume?</h2>
+        <a href="/resume.pdf" download class="btn btn-primary">
+          Download Resume
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
