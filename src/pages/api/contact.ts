@@ -9,8 +9,8 @@ function delay(ms: number): Promise<void> {
 }
 
 async function sendTelegramMessage(name: string, email: string, message: string): Promise<boolean> {
-  const botToken = import.meta.env.TELEGRAM_BOT_TOKEN;
-  const chatId = import.meta.env.TELEGRAM_CHAT_ID;
+  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
 
   if (!botToken || !chatId) {
     console.warn('Telegram credentials not configured');

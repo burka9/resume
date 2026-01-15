@@ -3,6 +3,7 @@ module.exports = {
         {
             name: 'biruk-portfolio',
             script: './dist/server/entry.mjs',
+            env_file: '.env',
             env: {
                 NODE_ENV: 'production',
                 PORT: 4321,
