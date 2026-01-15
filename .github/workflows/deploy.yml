@@ -1,0 +1,95 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Create Artifact
+        run: |
+          mkdir deploy
+          cp -r dist deploy/
+          cp -r db deploy/
+          cp package.json deploy/
+          cp package-lock.json deploy/
+          cp ecosystem.config.cjs deploy/
+
+      - name: Upload Artifact
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_KEY }}
+          source: "deploy/*"
+          target: "${{ secrets.VPS_TARGET_DIR }}/releases/${{ github.sha }}"
+          strip_components: 1
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_KEY }}
+          script: |
+            # Variables
+            TARGET_DIR=${{ secrets.VPS_TARGET_DIR }}
+            RELEASE_DIR=$TARGET_DIR/releases/${{ github.sha }}
+            APP_DIR=$TARGET_DIR/current
+            DATA_DIR=$TARGET_DIR/data
+            DB_PATH=$DATA_DIR/portfolio.db
+
+            # Ensure data directory exists
+            mkdir -p $DATA_DIR
+
+            # Navigate to release directory
+            cd $RELEASE_DIR
+
+            # Create .env file from secrets
+            echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> .env
+            echo "TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}" >> .env
+            echo "DB_PATH=$DB_PATH" >> .env
+            echo "PORT=4321" >> .env
+            echo "HOST=0.0.0.0" >> .env
+
+            # Install production dependencies (builds better-sqlite3 for VPS)
+            npm ci --production
+
+            # Run DB Update (or Init if first time)
+            # We pass DB_PATH env var so it uses the persistent DB
+            export DB_PATH=$DB_PATH
+            
+            if [ ! -f "$DB_PATH" ]; then
+              echo "Initializing database..."
+              npm run db:init
+            else
+              echo "Updating database content..."
+              npm run db:update
+            fi
+
+            # Link to current
+            ln -sfn $RELEASE_DIR $APP_DIR
+
+            # Restart PM2
+            cd $APP_DIR
+            pm2 startOrReload ecosystem.config.cjs --env production --update-env

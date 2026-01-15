@@ -1,35 +1,16 @@
-import pkg from 'sql.js';
-const initSqlJs = pkg as typeof import('sql.js').default;
-type SqlJsDatabase = InstanceType<Awaited<ReturnType<typeof initSqlJs>>['Database']>;
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import Database from 'better-sqlite3';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const dbPath = join(__dirname, '../../db/portfolio.db');
+const dbPath = process.env.DB_PATH || join(__dirname, '../../db/portfolio.db');
 
-let db: SqlJsDatabase | null = null;
+let db: Database.Database | null = null;
 
-async function getDb(): Promise<SqlJsDatabase> {
+function getDb(): Database.Database {
   if (db) return db;
-
-  const SQL = await initSqlJs();
-
-  if (existsSync(dbPath)) {
-    const fileBuffer = readFileSync(dbPath);
-    db = new SQL.Database(fileBuffer);
-  } else {
-    db = new SQL.Database();
-  }
-
+  db = new Database(dbPath);
   return db;
-}
-
-function saveDb(): void {
-  if (!db) return;
-  const data = db.export();
-  const buffer = Buffer.from(data);
-  writeFileSync(dbPath, buffer);
 }
 
 // Types
@@ -70,51 +51,29 @@ export interface ContactMessage {
   created_at: string;
 }
 
-// Helper to convert sql.js result to typed array
-function queryAll<T>(db: SqlJsDatabase, sql: string): T[] {
-  const result = db.exec(sql);
-  if (result.length === 0) return [];
-
-  const columns = result[0].columns;
-  return result[0].values.map(row => {
-    const obj: Record<string, unknown> = {};
-    columns.forEach((col, i) => {
-      obj[col] = row[i];
-    });
-    return obj as T;
-  });
-}
-
-function queryOne<T>(db: SqlJsDatabase, sql: string): T | undefined {
-  const results = queryAll<T>(db, sql);
-  return results[0];
-}
-
 // Queries
-export async function getAllProjects(): Promise<Project[]> {
-  const db = await getDb();
-  return queryAll<Project>(db, 'SELECT * FROM projects ORDER BY created_at DESC');
+export function getAllProjects(): Project[] {
+  const db = getDb();
+  return db.prepare('SELECT * FROM projects ORDER BY created_at DESC').all() as Project[];
 }
 
-export async function getProjectBySlug(slug: string): Promise<Project | undefined> {
-  const db = await getDb();
-  // Escape single quotes in slug
-  const safeSlug = slug.replace(/'/g, "''");
-  return queryOne<Project>(db, `SELECT * FROM projects WHERE slug = '${safeSlug}'`);
+export function getProjectBySlug(slug: string): Project | undefined {
+  const db = getDb();
+  return db.prepare('SELECT * FROM projects WHERE slug = ?').get(slug) as Project | undefined;
 }
 
-export async function getAllExperiences(): Promise<Experience[]> {
-  const db = await getDb();
-  return queryAll<Experience>(db, 'SELECT * FROM experiences ORDER BY sort_order ASC');
+export function getAllExperiences(): Experience[] {
+  const db = getDb();
+  return db.prepare('SELECT * FROM experiences ORDER BY sort_order ASC').all() as Experience[];
 }
 
-export async function getAllSkills(): Promise<Skill[]> {
-  const db = await getDb();
-  return queryAll<Skill>(db, 'SELECT * FROM skills ORDER BY category, name');
+export function getAllSkills(): Skill[] {
+  const db = getDb();
+  return db.prepare('SELECT * FROM skills ORDER BY category, name').all() as Skill[];
 }
 
-export async function getSkillsByCategory(): Promise<Record<string, Skill[]>> {
-  const skills = await getAllSkills();
+export function getSkillsByCategory(): Record<string, Skill[]> {
+  const skills = getAllSkills();
   return skills.reduce((acc, skill) => {
     if (!acc[skill.category]) {
       acc[skill.category] = [];
@@ -124,14 +83,10 @@ export async function getSkillsByCategory(): Promise<Record<string, Skill[]>> {
   }, {} as Record<string, Skill[]>);
 }
 
-export async function saveContactMessage(name: string, email: string, message: string): Promise<void> {
-  const db = await getDb();
-  // Escape single quotes
-  const safeName = name.replace(/'/g, "''");
-  const safeEmail = email.replace(/'/g, "''");
-  const safeMessage = message.replace(/'/g, "''");
-  db.run(`INSERT INTO contact_messages (name, email, message) VALUES ('${safeName}', '${safeEmail}', '${safeMessage}')`);
-  saveDb();
+export function saveContactMessage(name: string, email: string, message: string): void {
+  const db = getDb();
+  const stmt = db.prepare('INSERT INTO contact_messages (name, email, message) VALUES (?, ?, ?)');
+  stmt.run(name, email, message);
 }
 
 export default getDb;

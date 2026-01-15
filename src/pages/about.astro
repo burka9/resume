@@ -36,20 +36,118 @@ const skillsByCategory = await getSkillsByCategory();
     <div class="container">
       <h2 class="section-title">Skills</h2>
 
-      <div class="space-y-8">
-        {Object.entries(skillsByCategory).map(([category, skills]) => (
-          <div>
-            <h3 class="text-lg font-semibold text-accent mb-4">{category}</h3>
-            <div class="flex flex-wrap gap-3">
-              {skills.map(skill => (
-                <SkillBadge name={skill.name} />
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {Object.entries(skillsByCategory).map(([category, skills], index) => (
+          <div class="skill-card group">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="skill-icon">
+                {category === 'Cloud & DevOps' && (
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                  </svg>
+                )}
+                {category === 'Frontend' && (
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                )}
+                {category === 'Backend' && (
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                  </svg>
+                )}
+                {category === 'Databases' && (
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                  </svg>
+                )}
+                {category === 'AI & Data' && (
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                )}
+                {category === 'Other' && (
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                  </svg>
+                )}
+              </div>
+              <h3 class="text-lg font-semibold group-hover:text-accent transition-colors">{category}</h3>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              {skills.map((skill, skillIndex) => (
+                <span
+                  class="skill-tag"
+                  style={`animation-delay: ${skillIndex * 50}ms`}
+                >
+                  {skill.name}
+                </span>
               ))}
+            </div>
+            <div class="skill-count">
+              {skills.length} skills
             </div>
           </div>
         ))}
       </div>
     </div>
   </section>
+
+  <style>
+    .skill-card {
+      @apply bg-surface rounded-xl p-6 border border-[var(--color-border)] transition-all duration-300;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #f97316, #fb923c);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .skill-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .skill-card:hover {
+      border-color: var(--color-border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -20px rgba(249, 115, 22, 0.2);
+    }
+
+    .skill-icon {
+      @apply w-10 h-10 rounded-lg bg-accent/10 text-accent flex items-center justify-center;
+      transition: all 0.3s ease;
+    }
+
+    .skill-card:hover .skill-icon {
+      @apply bg-accent text-white;
+      transform: rotate(-5deg) scale(1.1);
+    }
+
+    .skill-tag {
+      @apply px-3 py-1.5 text-sm rounded-md bg-background text-text-secondary;
+      border: 1px solid var(--color-border);
+      transition: all 0.2s ease;
+    }
+
+    .skill-tag:hover {
+      @apply text-accent border-accent;
+      transform: translateY(-2px);
+    }
+
+    .skill-count {
+      @apply absolute bottom-4 right-4 text-xs text-text-secondary opacity-50;
+    }
+  </style>
 
   <!-- Experience Section -->
   <section class="section">

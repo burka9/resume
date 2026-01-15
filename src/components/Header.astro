@@ -70,10 +70,33 @@ const currentPath = Astro.url.pathname;
 </header>
 
 <script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
+  function setupMobileMenu() {
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const links = menu?.querySelectorAll('a');
 
-  btn?.addEventListener('click', () => {
-    menu?.classList.toggle('hidden');
-  });
+    // Toggle menu
+    function toggleMenu() {
+      menu?.classList.toggle('hidden');
+    }
+
+    // Close menu
+    function closeMenu() {
+      menu?.classList.add('hidden');
+    }
+
+    // Clean up old listeners
+    btn?.removeEventListener('click', toggleMenu);
+    
+    // Add new listeners
+    btn?.addEventListener('click', toggleMenu);
+
+    // Close menu when a link is clicked
+    links?.forEach(link => {
+      link.removeEventListener('click', closeMenu);
+      link.addEventListener('click', closeMenu);
+    });
+  }
+
+  document.addEventListener('astro:page-load', setupMobileMenu);
 </script>
