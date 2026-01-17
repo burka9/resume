@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+  /* Disable transitions on initial load to prevent theme flash */
+  .no-transitions,
+  .no-transitions * {
+    transition: none !important;
+  }
+
   /* Light theme */
   :root {
     --color-background: #ffffff;

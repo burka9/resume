@@ -14,7 +14,7 @@ const fullTitle = `${title} | Biruk Ephrem`;
 ---
 
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="dark no-transitions">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,6 +35,10 @@ const fullTitle = `${title} | Biruk Ephrem`;
       } else if (stored === 'dark' || prefersDark) {
         document.documentElement.classList.add('dark');
       }
+      // Enable transitions after theme is set
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove('no-transitions');
+      });
     </script>
   </head>
   <body class="min-h-screen flex flex-col">

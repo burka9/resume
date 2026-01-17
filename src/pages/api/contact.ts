@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import type { APIRoute } from 'astro';
 import { saveContactMessage } from '../../lib/db';
 
