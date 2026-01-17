@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build:resume": "tsx scripts/generateResume.ts",
+    "build:resume": "npx tsx scripts/generateResume.ts",
     "prebuild": "npm run build:resume",
     "build": "astro build",
     "preview": "astro preview",
@@ -27,7 +27,6 @@
     "@types/better-sqlite3": "^7.6.13",
     "@types/pdfkit": "^0.17.4",
     "pdfkit": "^0.17.2",
-    "tsx": "^4.21.0",
     "typescript": "^5.7.0"
   }
 }
