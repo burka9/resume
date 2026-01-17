@@ -73,12 +73,12 @@ Collected Amharic language corpus data from web sources, PDFs, and social media.
 
 **Tech:** Python, Scrapy, Web Scraping
 
-### Rental Management System
-*Software Development* | [Live Demo](#) | [GitHub](#)
+### Rental Property Management System
+*Full Stack Development* | [Live Demo](#) | [GitHub](#)
 
-Property management application for tracking rental units, tenants, and payment histories.
+A comprehensive rental property management system for Ethiopian commercial real estate. Features Ethiopian calendar integration (13-month system), custom SMS gateway via Socket.IO, automated payment scheduling, bank transfer verification, PDF reports with Ethiopian font support, and role-based access control.
 
-**Tech:** Next.js, Node.js, MySQL
+**Tech:** Next.js, React, Node.js, TypeScript, Express.js, TypeORM, MySQL, Socket.IO, TailwindCSS
 
 ---
 
