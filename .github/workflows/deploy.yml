@@ -94,6 +94,7 @@ jobs:
             ln -sfn $RELEASE_DIR $APP_DIR
 
             # Restart PM2
+            # We run it from the current symlink directory to ensure consistency
             cd $APP_DIR
             pm2 startOrReload ecosystem.config.cjs --env production --update-env
 
