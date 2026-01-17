@@ -75,8 +75,15 @@ jobs:
             echo "PORT=4321" >> .env
             echo "HOST=0.0.0.0" >> .env
 
-            # Install production dependencies (builds better-sqlite3 for VPS)
-            npm ci --production
+            # Install production dependencies
+            # We use --omit=dev and set -e to ensure it fails if installation fails
+            set -e
+            npm ci --omit=dev
+            
+            if [ ! -d "node_modules" ]; then
+              echo "Error: node_modules directory not created!"
+              exit 1
+            fi
 
             # Run DB Update (or Init if first time)
             # We pass DB_PATH env var so it uses the persistent DB
