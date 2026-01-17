@@ -93,3 +93,7 @@ jobs:
             # Restart PM2
             cd $APP_DIR
             pm2 startOrReload ecosystem.config.cjs --env production --update-env
+
+            # Cleanup old releases (keep last 5)
+            cd $TARGET_DIR/releases
+            ls -dt * | tail -n +6 | xargs -r rm -rf

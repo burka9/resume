@@ -25,7 +25,7 @@ DevOps Engineer and Full Stack Developer with 5+ years of experience building sc
 - Improve system integrations and ensure high availability of services
 
 ### Full Stack Developer
-**Faris Technology** | Addis Ababa
+**Faris Technologies** | Addis Ababa
 *December 2023 - February 2025*
 
 - Developed ICT solutions for diverse business requirements

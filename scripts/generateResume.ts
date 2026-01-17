@@ -19,7 +19,7 @@ async function main() {
     console.log(`   ✓ Found ${resumeData.education.length} education entries\n`);
 
     // Ensure output directory exists
-    const outputDir = join(__dirname, '../dist/client');
+    const outputDir = join(__dirname, '../public');
     if (!existsSync(outputDir)) {
       console.log('📁 Creating output directory...');
       mkdirSync(outputDir, { recursive: true });
