@@ -67,6 +67,7 @@ INSERT INTO skills (name, category) VALUES
 
 -- Websites
 INSERT INTO websites (title, url, description, image_url) VALUES
-('The Luna Groups', 'https://thelunagroups.com/', 'Official website for Luna Group.', '/images/portfolio/luna-groups.webp'),
-('Fresh Corner', 'https://freshcorneret.com/', 'E-commerce platform for fresh produce.', '/images/portfolio/fresh-corner.webp'),
-('Promise Land Generation', 'https://promiselandgeneration.org/', 'Non-profit organization website.', '/images/portfolio/promise-land.webp');
+('Epic Trading', 'https://epictreading.com/', 'Trading platform website.', NULL),
+('The Luna Groups', 'https://thelunagroups.com/', 'Official website for Luna Group.', NULL),
+('Fresh Corner', 'https://freshcorneret.com/', 'E-commerce platform for fresh produce.', NULL),
+('Promise Land Generation', 'https://promiselandgeneration.org/', 'Non-profit organization website.', NULL);
