@@ -10,10 +10,11 @@ INSERT INTO projects (title, slug, description, tech_stack, github_url, live_url
 
 -- Experiences
 INSERT INTO experiences (company, role, location, start_date, end_date, description, sort_order) VALUES
-('ETTA Solutions PLC', 'DevOps Engineer', 'Addis Ababa', '2025-01', NULL, 'Implement CI/CD pipelines to automate deployments and improve release cycles. Design and maintain scalable cloud infrastructure for client solutions. Improve system integrations and ensure high availability of services.', 1),
-('Faris Technologies', 'Senior Software Engineer', 'Addis Ababa', '2023-12', '2025-02', 'Developed ICT solutions for diverse business requirements. Collected Amharic language data through web scraping using Puppeteer, Scrapy, and Selenium. Published dataset on HuggingFace and contributed to LLM fine-tuning efforts. Built and maintained full-stack applications using modern frameworks.', 2),
-('Netib Consult', 'Full Stack Developer', 'Addis Ababa', '2021-12', '2023-12', 'Designed and implemented user interfaces for web applications. Developed and managed backend servers and databases. Delivered end-to-end solutions for client projects.', 3),
-('Desert Rose', 'Web/Game Developer', 'Addis Ababa', '2020-11', '2021-06', 'Digitized an existing board game for online multiplayer access. Designed UI/UX and implemented frontend and backend systems. Integrated game servers with Telegram bot for user engagement.', 4);
+('One Planet International School', 'Senior DevOps Engineer', 'Addis Ababa (Remote)', '2025-12', NULL, 'Responsible for implementing and managing CI/CD pipelines and cloud infrastructure. Automate deployment processes and maintain scalable cloud solutions for the institution.', 1),
+('ETTA Solutions PLC', 'DevOps Engineer', 'Addis Ababa', '2025-01', NULL, 'Implement CI/CD pipelines to automate deployments and improve release cycles. Design and maintain scalable cloud infrastructure for client solutions. Improve system integrations and ensure high availability of services.', 2),
+('Faris Technologies', 'Senior Software Engineer', 'Addis Ababa', '2023-12', '2025-02', 'Developed ICT solutions for diverse business requirements. Collected Amharic language data through web scraping using Puppeteer, Scrapy, and Selenium. Published dataset on HuggingFace and contributed to LLM fine-tuning efforts. Built and maintained full-stack applications using modern frameworks.', 3),
+('Netib Consult', 'Full Stack Developer', 'Addis Ababa', '2021-12', '2023-12', 'Designed and implemented user interfaces for web applications. Developed and managed backend servers and databases. Delivered end-to-end solutions for client projects.', 4),
+('Desert Rose', 'Web/Game Developer', 'Addis Ababa', '2020-11', '2021-06', 'Digitized an existing board game for online multiplayer access. Designed UI/UX and implemented frontend and backend systems. Integrated game servers with Telegram bot for user engagement.', 5);
 
 -- Skills
 INSERT INTO skills (name, category) VALUES
