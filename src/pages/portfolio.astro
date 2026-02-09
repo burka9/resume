@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import WebsiteCard from "../components/WebsiteCard.astro";
+import { getAllWebsites } from "../lib/db";
+
+const websites = await getAllWebsites();
+---
+
+<BaseLayout
+    title="Portfolio"
+    description="A showcase of websites I've built for various organizations and businesses"
+>
+    <section class="section pt-32">
+        <div class="container">
+            <h1 class="section-title">Portfolio</h1>
+
+            <p class="text-lg text-text-secondary mb-12 max-w-2xl">
+                A selection of websites I've built for various organizations and
+                businesses, ranging from non-profits to e-commerce platforms.
+            </p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {websites.map((website) => <WebsiteCard website={website} />)}
+            </div>
+        </div>
+    </section>
+</BaseLayout>

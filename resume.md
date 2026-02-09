@@ -53,7 +53,7 @@ DevOps Engineer and Full Stack Developer with 5+ years of experience building sc
 ## Projects
 
 ### Attendance, Warehouse and Finance Management System
-*Full Stack Development* | [Live Demo](#) | [GitHub](#)
+*Full Stack Development* | [Live Demo](https://michule.com/) | [GitHub](#)
 
 Built for Muntaha Foundation. A comprehensive system that automates beneficiary registration, attendance tracking, warehouse inventory management, and donation/payment tracking.
 
@@ -79,6 +79,14 @@ Collected Amharic language corpus data from web sources, PDFs, and social media.
 A comprehensive rental property management system for Ethiopian commercial real estate. Features Ethiopian calendar integration (13-month system), custom SMS gateway via Socket.IO, automated payment scheduling, bank transfer verification, PDF reports with Ethiopian font support, and role-based access control.
 
 **Tech:** Next.js, React, Node.js, TypeScript, Express.js, TypeORM, MySQL, Socket.IO, TailwindCSS
+
+---
+
+## Websites
+
+- **The Luna Groups** - [thelunagroups.com](https://thelunagroups.com/)
+- **Fresh Corner** - [freshcorneret.com](https://freshcorneret.com/)
+- **Promise Land Generation** - [promiselandgeneration.org](https://promiselandgeneration.org/)
 
 ---
 

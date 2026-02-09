@@ -51,6 +51,15 @@ export interface ContactMessage {
   created_at: string;
 }
 
+export interface Website {
+  id: number;
+  title: string;
+  url: string;
+  description: string | null;
+  image_url: string | null;
+  created_at: string;
+}
+
 // Queries
 export function getAllProjects(): Project[] {
   const db = getDb();
@@ -81,6 +90,11 @@ export function getSkillsByCategory(): Record<string, Skill[]> {
     acc[skill.category].push(skill);
     return acc;
   }, {} as Record<string, Skill[]>);
+}
+
+export function getAllWebsites(): Website[] {
+  const db = getDb();
+  return db.prepare('SELECT * FROM websites ORDER BY created_at DESC').all() as Website[];
 }
 
 export function saveContactMessage(name: string, email: string, message: string): void {
