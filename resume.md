@@ -129,10 +129,10 @@ AWS services, Full Stack applications on AWS, Serverless Framework
 
 Training in cybersecurity, mobile security and privacy, system security
 
-### Addis Ababa Science and Technology University
+### Addis Ababa Science and Technology University - Electrical and Computer Engineering
 *September 2015 - July 2021*
 
-Electrical and Computer Engineering (Coursework)
+Coursework only
 
 ---
 
