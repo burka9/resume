@@ -14,18 +14,23 @@ function updateDb() {
 
     const db = new Database(dbPath);
 
-    // Read seed data
+    // Read schema and seed data
+    const schema = readFileSync(join(__dirname, 'schema.sql'), 'utf-8');
     const seed = readFileSync(join(__dirname, 'seed.sql'), 'utf-8');
 
     // Start transaction
     const updateTransaction = db.transaction(() => {
-        // Clear content tables
+        // Apply schema changes (creates new tables if they don't exist)
+        db.exec(schema);
+
+        // Clear content tables (but preserve contact_messages)
         db.prepare('DELETE FROM projects').run();
         db.prepare('DELETE FROM experiences').run();
         db.prepare('DELETE FROM skills').run();
+        db.prepare('DELETE FROM websites').run();
 
         // Reset sequences for content tables
-        db.prepare("DELETE FROM sqlite_sequence WHERE name IN ('projects', 'experiences', 'skills')").run();
+        db.prepare("DELETE FROM sqlite_sequence WHERE name IN ('projects', 'experiences', 'skills', 'websites')").run();
 
         // Re-run seed data
         db.exec(seed);
@@ -33,7 +38,7 @@ function updateDb() {
 
     try {
         updateTransaction();
-        console.log('Database content updated successfully! Contact messages preserved.');
+        console.log('Database schema and content updated successfully! Contact messages preserved.');
     } catch (error) {
         console.error('Failed to update database:', error);
     } finally {
