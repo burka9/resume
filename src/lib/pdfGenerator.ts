@@ -125,7 +125,7 @@ function renderHeader(doc: PDFKit.PDFDocument, data: ResumeData): void {
   doc.moveDown(0.2);
 
   // Links
-  const links = `GitHub: ${personal.github} | LinkedIn: ${personal.linkedin}`;
+  const links = `GitHub: ${personal.github} | LinkedIn: ${personal.linkedin} | Portfolio: ${personal.portfolio}`;
   doc.fontSize(9)
     .fillColor(COLORS.secondary)
     .text(links, { align: 'center' });
